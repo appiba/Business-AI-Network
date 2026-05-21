@@ -118,7 +118,7 @@ const BANDERAS = {
   'Arabia Saudí':'🇸🇦', 'Uruguay':'🇺🇾', 'Irán':'🇮🇷', 'Nueva Zelanda':'🇳🇿',
   'Francia':'🇫🇷', 'Senegal':'🇸🇳', 'Irak':'🇮🇶', 'Noruega':'🇳🇴',
   'Argentina':'🇦🇷', 'Argelia':'🇩🇿', 'Austria':'🇦🇹', 'Jordania':'🇯🇴',
-  'Portugal':'🇵🇹', 'Congo Democrático':'🇨🇩', 'Inglaterra':'🏴', 'Croacia':'🇭🇷',
+  'Portugal':'🇵🇹', 'Congo Democrático':'🇨🇩', 'Inglaterra':'🏴󠁧󠁢󠁥󠁮󠁧󠁿', 'Croacia':'🇭🇷',
   'Ghana':'🇬🇭', 'Panamá':'🇵🇦', 'Uzbekistán':'🇺🇿', 'Colombia':'🇨🇴'
 };
 
@@ -137,24 +137,32 @@ let pronosticosGlobal = [];
 let faseActiva = 'GRUPOS';
 
 function limpiarCelular(numero) {
-  numero = String(numero || '').replace(/\D/g, '');
-  if (numero.startsWith('0')) numero = numero.substring(1);
-  return numero;
+  const limpio = String(numero || '').replace(/\D/g, '');
+  return limpio.startsWith('0') ? limpio.substring(1) : limpio;
 }
 
 function mensaje(texto) {
   const toast = document.getElementById('toast');
+  if (!toast) return;
   toast.textContent = texto;
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 3000);
 }
 
 async function apiPost(data) {
-  const res = await fetch(API_URL, {
-    method: 'POST',
-    body: JSON.stringify(data)
-  });
-  return await res.json();
+  try {
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      mode: 'cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
+    return await res.json();
+  } catch (error) {
+    console.error("Error en API Call:", error);
+    return { ok: false, message: 'Error de conexión con el servidor.' };
+  }
 }
 
 function bandera(equipo) {
@@ -170,91 +178,72 @@ function equipoHTML(nombre) {
   `;
 }
 
-function mostrarLogin() {
-  document.getElementById('tabLogin').classList.add('active');
-  document.getElementById('tabRegistro').classList.remove('active');
-  document.getElementById('loginForm').style.display = 'grid';
-  document.getElementById('registroForm').style.display = 'none';
+function toggleAuthTabs(vista) {
+  const isLogin = vista === 'login';
+  document.getElementById('tabLogin').classList.toggle('active', isLogin);
+  document.getElementById('tabRegistro').classList.toggle('active', !isLogin);
+  document.getElementById('loginForm').style.display = isLogin ? 'grid' : 'none';
+  document.getElementById('registroForm').style.display = isLogin ? 'none' : 'grid';
 }
 
-function mostrarRegistro() {
-  document.getElementById('tabRegistro').classList.add('active');
-  document.getElementById('tabLogin').classList.remove('active');
-  document.getElementById('registroForm').style.display = 'grid';
-  document.getElementById('loginForm').style.display = 'none';
-}
+function mostrarLogin() { toggleAuthTabs('login'); }
+function mostrarRegistro() { toggleAuthTabs('registro'); }
 
 document.addEventListener('DOMContentLoaded', () => {
   const participante = obtenerSesion();
 
-  document.getElementById('registroForm').addEventListener('submit', registrarParticipante);
-  document.getElementById('loginForm').addEventListener('submit', loginParticipante);
+  document.getElementById('registroForm')?.addEventListener('submit', registrarParticipante);
+  document.getElementById('loginForm')?.addEventListener('submit', loginParticipante);
 
-  const btnSalir = document.getElementById('btnSalir');
-  if (btnSalir) {
-    btnSalir.addEventListener('click', () => {
-      localStorage.removeItem('participante');
-      location.reload();
-    });
-  }
+  document.getElementById('btnSalir')?.addEventListener('click', () => {
+    localStorage.removeItem('participante');
+    location.reload();
+  });
 
   if (participante) iniciarQuiniela();
 });
 
 async function registrarParticipante(e) {
   e.preventDefault();
-
   const nombres = document.getElementById('nombres').value.trim();
   const apellidos = document.getElementById('apellidos').value.trim();
   const cedula = document.getElementById('cedula').value.trim();
   const celular = limpiarCelular(document.getElementById('celular').value);
 
-  const result = await apiPost({
-    action: 'registrarParticipante',
-    nombres,
-    apellidos,
-    cedula,
-    celular
-  });
+  const result = await apiPost({ action: 'registrarParticipante', nombres, apellidos, cedula, celular });
 
-  if (!result.ok) {
-    mensaje(result.message);
-    return;
+  mensaje(result.message || (result.ok ? 'Registro exitoso' : 'Error en registro'));
+  if (result.ok) {
+    localStorage.setItem('participante', JSON.stringify(result.participante));
+    setTimeout(() => location.reload(), 700);
   }
-
-  localStorage.setItem('participante', JSON.stringify(result.participante));
-  mensaje('Registro exitoso');
-  setTimeout(() => location.reload(), 700);
 }
 
 async function loginParticipante(e) {
   e.preventDefault();
-
   const cedula = document.getElementById('loginCedula').value.trim();
   const celular = limpiarCelular(document.getElementById('loginCelular').value);
 
-  const result = await apiPost({
-    action: 'loginParticipante',
-    cedula,
-    celular
-  });
+  const result = await apiPost({ action: 'loginParticipante', cedula, celular });
 
-  if (!result.ok) {
-    mensaje(result.message);
-    return;
+  mensaje(result.message || (result.ok ? 'Ingreso correcto' : 'Datos inválidos'));
+  if (result.ok) {
+    localStorage.setItem('participante', JSON.stringify(result.participante));
+    setTimeout(() => location.reload(), 700);
   }
-
-  localStorage.setItem('participante', JSON.stringify(result.participante));
-  mensaje('Ingreso correcto');
-  setTimeout(() => location.reload(), 700);
 }
 
 function obtenerSesion() {
-  return JSON.parse(localStorage.getItem('participante'));
+  try {
+    return JSON.parse(localStorage.getItem('participante'));
+  } catch (e) {
+    return null;
+  }
 }
 
 async function iniciarQuiniela() {
   const participante = obtenerSesion();
+  if (!participante) return;
 
   document.getElementById('acceso').style.display = 'none';
   document.getElementById('miCuenta').style.display = 'block';
@@ -277,40 +266,44 @@ async function iniciarQuiniela() {
   `;
 
   await cargarDatos();
-
-  document.getElementById('partidos').scrollIntoView({ behavior:'smooth' });
+  document.getElementById('partidos').scrollIntoView({ behavior: 'smooth' });
 }
 
 async function cargarDatos() {
   const participante = obtenerSesion();
+  if (!participante) return;
 
-  let partidosRes = { partidos: [] };
-  let fasesRes = { fases: [] };
-  let pronosticosRes = { pronosticos: [] };
-  let rankingRes = { ranking: [] };
-
+  // Promesas en paralelo para optimizar la velocidad drásticamente
   try {
-    partidosRes = await apiPost({ action:'obtenerPartidos' });
-    fasesRes = await apiPost({ action:'obtenerFases' });
-    pronosticosRes = await apiPost({ action:'obtenerPronosticos', codigo: participante.codigo });
-    rankingRes = await apiPost({ action:'obtenerRanking' });
+    const [partidosRes, fasesRes, pronosticosRes, rankingRes] = await Promise.all([
+      apiPost({ action: 'obtenerPartidos' }),
+      apiPost({ action: 'obtenerFases' }),
+      apiPost({ action: 'obtenerPronosticos', codigo: participante.codigo }),
+      apiPost({ action: 'obtenerRanking' })
+    ]);
+
+    partidosGlobal = partidosRes?.partidos?.length ? partidosRes.partidos : FIXTURE_COMPLETO;
+    pronosticosGlobal = pronosticosRes?.pronosticos || [];
+
+    document.getElementById('totalPartidos').innerText = partidosGlobal.length;
+    document.getElementById('totalRanking').innerText = rankingRes?.ranking ? rankingRes.ranking.length : 0;
+
+    renderFases(fasesRes?.fases?.length ? fasesRes.fases : FASES_FALLBACK);
+    renderPartidos();
+    renderRanking(rankingRes?.ranking || []);
+
   } catch (error) {
-    console.error(error);
+    console.error("Error cargando componentes estructurales:", error);
+    // Carga de respaldo local si falla el servidor
+    partidosGlobal = FIXTURE_COMPLETO;
+    renderFases(FASES_FALLBACK);
+    renderPartidos();
   }
-
-  partidosGlobal = partidosRes.partidos && partidosRes.partidos.length ? partidosRes.partidos : FIXTURE_COMPLETO;
-  pronosticosGlobal = pronosticosRes.pronosticos || [];
-
-  document.getElementById('totalPartidos').innerText = partidosGlobal.length;
-  document.getElementById('totalRanking').innerText = rankingRes.ranking ? rankingRes.ranking.length : 0;
-
-  renderFases(fasesRes.fases && fasesRes.fases.length ? fasesRes.fases : FASES_FALLBACK);
-  renderPartidos();
-  renderRanking(rankingRes.ranking || []);
 }
 
 function renderFases(fases) {
   const contenedor = document.getElementById('faseTabs');
+  if (!contenedor) return;
   contenedor.innerHTML = '';
 
   fases.forEach(fase => {
@@ -318,12 +311,9 @@ function renderFases(fases) {
     const estado = String(fase.ESTADO || '').toUpperCase();
 
     const btn = document.createElement('button');
-    btn.className = 'filter';
+    btn.className = `filter ${nombre === faseActiva ? 'active' : ''}`;
     btn.type = 'button';
     btn.innerText = estado === 'ABIERTA' ? nombre : `${nombre} 🔒`;
-
-    if (nombre === faseActiva) btn.classList.add('active');
-
     if (estado !== 'ABIERTA') btn.disabled = true;
 
     btn.addEventListener('click', () => {
@@ -339,6 +329,7 @@ function renderFases(fases) {
 
 function renderPartidos() {
   const contenedor = document.getElementById('listaPartidos');
+  if (!contenedor) return;
   contenedor.innerHTML = '';
 
   const partidos = partidosGlobal.filter(p => String(p.FASE || '').toUpperCase() === faseActiva);
@@ -353,10 +344,9 @@ function renderPartidos() {
     const estado = String(partido.ESTADO || '').toUpperCase();
     const bloqueado = estado !== 'ABIERTO';
 
-    const estadoClase =
-      estado === 'ABIERTO' ? 'status-abierto' :
-      estado === 'BLOQUEADO' ? 'status-bloqueado' :
-      'status-finalizado';
+    const estadoClase = 
+      estado === 'ABIERTO' ? 'status-abierto' : 
+      estado === 'BLOQUEADO' ? 'status-bloqueado' : 'status-finalizado';
 
     const card = document.createElement('div');
     card.className = 'match-card';
@@ -366,27 +356,30 @@ function renderPartidos() {
         <span>${partido.FASE} · Grupo ${partido.GRUPO || '-'} · ${formatearFecha(partido.FECHA)} · ${partido.HORA || ''}</span>
         <div class="match-status ${estadoClase}">${estado}</div>
       </div>
-
       <div class="match-teams">
         <div class="team">${equipoHTML(partido.EQUIPO_LOCAL)}</div>
         <div class="vs">VS</div>
         <div class="team">${equipoHTML(partido.EQUIPO_VISITA)}</div>
       </div>
-
       <div class="match-actions">
         <input type="number" min="0" id="local-${partido.ID_PARTIDO}" value="${pronostico ? pronostico.GOLES_LOCAL : ''}" placeholder="0" ${bloqueado ? 'disabled' : ''}>
         <span class="score-separator">-</span>
         <input type="number" min="0" id="visita-${partido.ID_PARTIDO}" value="${pronostico ? pronostico.GOLES_VISITA : ''}" placeholder="0" ${bloqueado ? 'disabled' : ''}>
-        <button onclick="guardarPronostico('${partido.ID_PARTIDO}')" ${bloqueado ? 'disabled' : ''}>${pronostico ? 'Actualizar' : 'Guardar'}</button>
+        <button id="btn-save-${partido.ID_PARTIDO}" ${bloqueado ? 'disabled' : ''}>${pronostico ? 'Actualizar' : 'Guardar'}</button>
       </div>
     `;
 
     contenedor.appendChild(card);
+
+    // Inyección limpia del evento click (sin onclick inline en string)
+    const btnGuardar = card.querySelector(`#btn-save-${partido.ID_PARTIDO}`);
+    btnGuardar?.addEventListener('click', () => guardarPronostico(partido.ID_PARTIDO, btnGuardar));
   });
 }
 
-async function guardarPronostico(idPartido) {
+async function guardarPronostico(idPartido, botonContexto) {
   const participante = obtenerSesion();
+  if (!participante) return;
 
   const golesLocal = document.getElementById(`local-${idPartido}`).value;
   const golesVisita = document.getElementById(`visita-${idPartido}`).value;
@@ -396,8 +389,14 @@ async function guardarPronostico(idPartido) {
     return;
   }
 
+  // Deshabilitar botón temporalmente para evitar doble envío accidental (UX premium)
+  if (botonContexto) {
+    botonContexto.disabled = true;
+    botonContexto.innerText = 'Guardando...';
+  }
+
   const result = await apiPost({
-    action:'guardarPronostico',
+    action: 'guardarPronostico',
     codigo: participante.codigo,
     idPartido,
     golesLocal,
@@ -405,12 +404,18 @@ async function guardarPronostico(idPartido) {
   });
 
   mensaje(result.message || 'Pronóstico guardado');
-
-  if (result.ok) await cargarDatos();
+  
+  if (result.ok) {
+    await cargarDatos();
+  } else if (botonContexto) {
+    botonContexto.disabled = false;
+    botonContexto.innerText = 'Reintentar';
+  }
 }
 
 function renderRanking(ranking) {
   const contenedor = document.getElementById('rankingContainer');
+  if (!contenedor) return;
   contenedor.innerHTML = '';
 
   if (!ranking.length) {
@@ -421,7 +426,6 @@ function renderRanking(ranking) {
   ranking.forEach((item, index) => {
     const card = document.createElement('div');
     card.className = 'ranking-card';
-
     card.innerHTML = `
       <div class="ranking-left">
         <div class="position">${item.POSICION || index + 1}</div>
@@ -432,7 +436,6 @@ function renderRanking(ranking) {
       </div>
       <div class="points">${item.PUNTOS || 0}</div>
     `;
-
     contenedor.appendChild(card);
   });
 }
@@ -440,11 +443,13 @@ function renderRanking(ranking) {
 function formatearFecha(fecha) {
   if (!fecha) return '';
   try {
-    return new Date(fecha).toLocaleDateString('es-EC', {
-      day:'2-digit',
-      month:'short',
-      year:'numeric'
-    });
+    // Forzar lectura local cortando guiones o añadiendo componente temporal para evitar desajustes horarios (Evita el bug del día anterior)
+    const partes = fecha.split('-');
+    if (partes.length === 3) {
+      const fechaLocal = new Date(partes[0], partes[1] - 1, partes[2]);
+      return fechaLocal.toLocaleDateString('es-EC', { day: '2-digit', month: 'short', year: 'numeric' });
+    }
+    return fecha;
   } catch (error) {
     return fecha;
   }
