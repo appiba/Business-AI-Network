@@ -531,6 +531,26 @@
     </section>
 
     <!-- =========================
+         ASISTENTE DE VOZ INTERNO TIPO SIRI
+    ========================== -->
+    <div class="voice-assistant" id="voiceAssistant">
+      <div class="voice-panel">
+        <div class="voice-orb" id="voiceOrb">
+          <span class="material-symbols-rounded">mic</span>
+        </div>
+
+        <p class="voice-status" id="voiceStatus">Toca y habla</p>
+
+        <h3 id="voiceText">Busca inversionistas, alianzas o ventas</h3>
+
+        <div class="voice-actions">
+          <button id="voiceCloseBtn">Cerrar</button>
+          <button id="voiceStartBtn">Hablar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================
          NAVEGACIÓN INFERIOR
     ========================== -->
     <nav class="bottom-nav">
@@ -544,7 +564,7 @@
         <small>Chat</small>
       </button>
 
-      <button class="nav-btn nav-main" data-go="directoryView">
+      <button class="nav-btn nav-main" id="openVoiceBtn">
         <span class="material-symbols-rounded">auto_awesome</span>
       </button>
 
