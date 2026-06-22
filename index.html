@@ -2,106 +2,147 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Red Social de Negocios</title>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  />
+  <title>Business Network</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- APP HEADER -->
+  <header class="app-header">
+    <div class="header-row">
+      <div class="brand-block">
+        <div class="brand-logo">BN</div>
+        <div class="brand-text">
+          <h1>Business Network</h1>
+          <p>Red social para negocios</p>
+        </div>
+      </div>
 
-  <header class="topbar">
-    <div class="brand">
-      <div class="logo">BN</div>
-      <div>
-        <h1>Business Network</h1>
-        <p>Red social para negocios locales</p>
+      <div class="header-actions desktop-only">
+        <button class="ghost-btn" onclick="openComposer()">Crear publicación</button>
       </div>
     </div>
 
-    <div class="search-box">
-      <input type="text" id="searchInput" placeholder="Buscar negocios, promos o eventos..." />
+    <div class="search-wrap">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Buscar negocios, promociones o eventos..."
+      />
     </div>
-
-    <button class="primary-btn" onclick="openModal()">+ Publicar</button>
   </header>
 
-  <main class="layout">
-
-    <aside class="sidebar left">
-      <div class="profile-card">
-        <div class="profile-cover"></div>
-        <div class="profile-avatar">EF</div>
-        <h2>EFE-EME Negocios</h2>
-        <p>Conecta, promociona y vende con negocios de tu ciudad.</p>
-        <button>Editar perfil</button>
+  <!-- MAIN LAYOUT -->
+  <main class="app-layout">
+    <!-- LEFT SIDEBAR DESKTOP -->
+    <aside class="sidebar left desktop-only">
+      <div class="glass-card profile-card">
+        <div class="profile-top">
+          <div class="profile-avatar large">EF</div>
+          <div>
+            <h3>EFE-EME Negocios</h3>
+            <p>Conecta, publica y promociona negocios locales.</p>
+          </div>
+        </div>
+        <button class="primary-btn full">Editar perfil</button>
       </div>
 
-      <div class="menu-card">
-        <h3>Menú</h3>
-        <a href="#">Inicio</a>
-        <a href="#">Negocios</a>
-        <a href="#">Promociones</a>
-        <a href="#">Eventos</a>
-        <a href="#">Mensajes</a>
-        <a href="#">Marketplace</a>
+      <div class="glass-card menu-card">
+        <h4>Menú</h4>
+        <nav>
+          <a href="#">Inicio</a>
+          <a href="#">Negocios</a>
+          <a href="#">Promociones</a>
+          <a href="#">Eventos</a>
+          <a href="#">Mensajes</a>
+          <a href="#">Marketplace</a>
+        </nav>
       </div>
     </aside>
 
+    <!-- CENTER FEED -->
     <section class="feed">
-
-      <div class="composer">
-        <div class="mini-avatar">EF</div>
-        <button onclick="openModal()">¿Qué quieres publicar para tu negocio?</button>
-      </div>
-
-      <div class="stories">
-        <div class="story">
-          <span>🍔</span>
-          <p>Restaurantes</p>
-        </div>
-        <div class="story">
-          <span>🎧</span>
-          <p>Radio</p>
-        </div>
-        <div class="story">
-          <span>📸</span>
-          <p>Fotografía</p>
-        </div>
-        <div class="story">
-          <span>🏪</span>
-          <p>Locales</p>
-        </div>
-        <div class="story">
-          <span>🎉</span>
-          <p>Eventos</p>
+      <!-- MOBILE SMALL PROFILE -->
+      <div class="mobile-profile mobile-only glass-card">
+        <div class="mobile-profile-row">
+          <div class="profile-avatar">EF</div>
+          <div>
+            <h3>EFE-EME Negocios</h3>
+            <p>Perfil de negocio verificado</p>
+          </div>
         </div>
       </div>
 
-      <div id="postsContainer"></div>
+      <!-- COMPOSER -->
+      <div class="glass-card composer-card" onclick="openComposer()">
+        <div class="composer-row">
+          <div class="profile-avatar dark">EF</div>
+          <button class="composer-input">
+            ¿Qué quieres publicar para tu negocio?
+          </button>
+        </div>
+      </div>
 
+      <!-- STORIES -->
+      <section class="glass-card stories-card">
+        <div class="stories-row">
+          <div class="story-item">
+            <div class="story-circle">🍔</div>
+            <span>Restaurantes</span>
+          </div>
+          <div class="story-item">
+            <div class="story-circle">🎧</div>
+            <span>Radio</span>
+          </div>
+          <div class="story-item">
+            <div class="story-circle">📸</div>
+            <span>Fotografía</span>
+          </div>
+          <div class="story-item">
+            <div class="story-circle">🏪</div>
+            <span>Locales</span>
+          </div>
+          <div class="story-item">
+            <div class="story-circle">🎉</div>
+            <span>Eventos</span>
+          </div>
+          <div class="story-item">
+            <div class="story-circle">🛍️</div>
+            <span>Ofertas</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- POSTS -->
+      <section id="postsContainer" class="posts-list"></section>
     </section>
 
-    <aside class="sidebar right">
-      <div class="panel">
-        <h3>Negocios destacados</h3>
+    <!-- RIGHT SIDEBAR DESKTOP -->
+    <aside class="sidebar right desktop-only">
+      <div class="glass-card">
+        <h4>Negocios destacados</h4>
 
-        <div class="business-item">
-          <div class="business-icon">LM</div>
+        <div class="side-item">
+          <div class="side-avatar">LM</div>
           <div>
             <strong>Laguna Mall</strong>
             <p>Centro comercial</p>
           </div>
         </div>
 
-        <div class="business-item">
-          <div class="business-icon">PL</div>
+        <div class="side-item">
+          <div class="side-avatar">PL</div>
           <div>
             <strong>PhotoLab</strong>
             <p>Estudio fotográfico</p>
           </div>
         </div>
 
-        <div class="business-item">
-          <div class="business-icon">CF</div>
+        <div class="side-item">
+          <div class="side-avatar">CF</div>
           <div>
             <strong>Céline</strong>
             <p>Bar Karaoke</p>
@@ -109,48 +150,77 @@
         </div>
       </div>
 
-      <div class="panel">
-        <h3>Eventos cercanos</h3>
-        <div class="event-box">
+      <div class="glass-card">
+        <h4>Eventos cercanos</h4>
+
+        <div class="event-item">
           <span>🏆</span>
           <div>
             <strong>Casa del Mundial</strong>
-            <p>Promociones, pantallas y activaciones.</p>
+            <p>Pantalla gigante y activaciones</p>
           </div>
         </div>
 
-        <div class="event-box">
+        <div class="event-item">
           <span>🎤</span>
           <div>
             <strong>Noche de negocios</strong>
-            <p>Networking entre marcas locales.</p>
+            <p>Networking para marcas locales</p>
           </div>
         </div>
       </div>
     </aside>
-
   </main>
 
-  <div class="modal" id="postModal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2>Nueva publicación</h2>
-        <button onclick="closeModal()">×</button>
+  <!-- MOBILE BOTTOM NAV -->
+  <nav class="bottom-nav mobile-only">
+    <button class="nav-item active">
+      <span>⌂</span>
+      <small>Inicio</small>
+    </button>
+    <button class="nav-item">
+      <span>⌕</span>
+      <small>Buscar</small>
+    </button>
+    <button class="nav-item create" onclick="openComposer()">
+      <span>＋</span>
+      <small>Crear</small>
+    </button>
+    <button class="nav-item">
+      <span>♡</span>
+      <small>Actividad</small>
+    </button>
+    <button class="nav-item">
+      <span>◉</span>
+      <small>Perfil</small>
+    </button>
+  </nav>
+
+  <!-- COMPOSER SHEET -->
+  <div class="sheet-overlay" id="sheetOverlay" onclick="closeComposer(event)">
+    <div class="composer-sheet" onclick="event.stopPropagation()">
+      <div class="sheet-handle"></div>
+
+      <div class="sheet-head">
+        <h3>Nueva publicación</h3>
+        <button class="close-btn" onclick="closeComposer()">×</button>
       </div>
 
-      <input type="text" id="businessName" placeholder="Nombre del negocio" />
-      <input type="text" id="postTitle" placeholder="Título de la publicación" />
-      <textarea id="postText" placeholder="Escribe la promoción, evento o anuncio..."></textarea>
+      <div class="sheet-body">
+        <input type="text" id="businessName" placeholder="Nombre del negocio" />
+        <input type="text" id="postTitle" placeholder="Título de la publicación" />
+        <textarea id="postText" placeholder="Escribe aquí la promoción, evento o anuncio..."></textarea>
 
-      <select id="postCategory">
-        <option value="Promoción">Promoción</option>
-        <option value="Evento">Evento</option>
-        <option value="Producto">Producto</option>
-        <option value="Servicio">Servicio</option>
-        <option value="Comunicado">Comunicado</option>
-      </select>
+        <select id="postCategory">
+          <option value="Promoción">Promoción</option>
+          <option value="Evento">Evento</option>
+          <option value="Producto">Producto</option>
+          <option value="Servicio">Servicio</option>
+          <option value="Comunicado">Comunicado</option>
+        </select>
 
-      <button class="publish-btn" onclick="createPost()">Publicar ahora</button>
+        <button class="primary-btn full" onclick="createPost()">Publicar</button>
+      </div>
     </div>
   </div>
 
