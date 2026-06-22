@@ -3,322 +3,427 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>AI Assistant App</title>
+  <title>Business AI Network</title>
 
-  <!-- Fuente premium -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Fuente corporativa -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet"
-  >
+  />
 
-  <!-- Íconos Google -->
+  <!-- Íconos -->
   <link
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,500,0,0"
     rel="stylesheet"
-  >
+  />
 
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-  <div class="phone-app">
+  <div class="app-shell">
 
-    <!-- Fondo decorativo -->
-    <div class="ambient ambient-one"></div>
-    <div class="ambient ambient-two"></div>
+    <!-- Fondo premium -->
+    <div class="glow glow-red"></div>
+    <div class="glow glow-dark"></div>
 
     <!-- =========================
-         VISTA 1: INICIO
+         VISTA 1: FEED Y NETWORKING
     ========================== -->
-    <section class="view active" id="homeView">
+    <section class="view active" id="feedView">
 
-      <header class="home-header">
+      <header class="top-header">
         <div>
-          <p class="eyebrow">Bienvenido</p>
-          <h1>Hola, Pato 👋</h1>
-          <p class="subtitle">¿Qué quieres crear hoy con IA?</p>
+          <p class="section-label">Business AI Network</p>
+          <h1>Networking</h1>
         </div>
 
-        <button class="avatar-btn" aria-label="Perfil">
-          <span>PN</span>
+        <button class="notify-btn" aria-label="Notificaciones">
+          <span class="material-symbols-rounded">notifications</span>
+          <i></i>
         </button>
       </header>
 
-      <section class="hero-card">
-        <div class="orb">
-          <div class="orb-core"></div>
+      <section class="ai-card">
+        <div class="ai-icon">
+          <span class="material-symbols-rounded">auto_awesome</span>
         </div>
 
-        <div class="hero-content">
-          <p>Asistente inteligente</p>
-          <h2>Pregunta, crea, automatiza y organiza tu día.</h2>
+        <div class="ai-card-text">
+          <p>Asistente IA de negocios</p>
+          <h2>Encuentra inversionistas, alianzas, compradores y oportunidades comerciales.</h2>
         </div>
 
-        <button class="hero-action" data-go="chatView">
-          <span class="material-symbols-rounded">chat_bubble</span>
-          Empezar chat
+        <button class="main-btn" data-go="directoryView">
+          Buscar oportunidades
         </button>
       </section>
 
-      <section class="section-block">
-        <div class="section-title">
-          <h3>Recientes</h3>
-          <button>Ver todo</button>
-        </div>
-
-        <div class="recent-row">
-          <button class="pill">Crear copy</button>
-          <button class="pill">Idea de negocio</button>
-          <button class="pill">Diseño web</button>
-          <button class="pill">Automatizar</button>
-        </div>
+      <section class="filter-row">
+        <button class="filter-pill active">Todos</button>
+        <button class="filter-pill">Inversionistas</button>
+        <button class="filter-pill">Alianzas</button>
+        <button class="filter-pill">Ventas</button>
+        <button class="filter-pill">Proyectos</button>
       </section>
 
-      <section class="section-block">
-        <div class="section-title">
-          <h3>Acciones rápidas</h3>
+      <main class="feed-list">
+
+        <article class="post-card">
+          <div class="post-header">
+            <div class="profile">
+              <div class="avatar avatar-red">LM</div>
+              <div>
+                <h3>Laguna Mall</h3>
+                <p>Centro comercial · Ibarra</p>
+              </div>
+            </div>
+            <span class="tag">Alianza</span>
+          </div>
+
+          <p class="post-text">
+            Buscamos marcas, productores y negocios locales para crear activaciones comerciales de fin de semana dentro del centro comercial.
+          </p>
+
+          <div class="business-data">
+            <div>
+              <small>Tipo</small>
+              <strong>Activación comercial</strong>
+            </div>
+            <div>
+              <small>Interés</small>
+              <strong>Canje / Venta</strong>
+            </div>
+          </div>
+
+          <div class="post-actions">
+            <button>
+              <span class="material-symbols-rounded">thumb_up</span>
+              Recomendar
+            </button>
+            <button class="accent-action">
+              <span class="material-symbols-rounded">forum</span>
+              Contactar
+            </button>
+          </div>
+        </article>
+
+        <article class="post-card">
+          <div class="post-header">
+            <div class="profile">
+              <div class="avatar">PF</div>
+              <div>
+                <h3>PhotoLab Studio</h3>
+                <p>Fotografía comercial · Ecuador</p>
+              </div>
+            </div>
+            <span class="tag red">Ventas</span>
+          </div>
+
+          <p class="post-text">
+            Servicio de contenido visual para negocios: fotos, reels, videos promocionales, campañas de producto y material para redes sociales.
+          </p>
+
+          <div class="business-data">
+            <div>
+              <small>Oferta</small>
+              <strong>Producción visual</strong>
+            </div>
+            <div>
+              <small>Desde</small>
+              <strong>$25</strong>
+            </div>
+          </div>
+
+          <div class="post-actions">
+            <button>
+              <span class="material-symbols-rounded">thumb_up</span>
+              Recomendar
+            </button>
+            <button class="accent-action">
+              <span class="material-symbols-rounded">forum</span>
+              Contactar
+            </button>
+          </div>
+        </article>
+
+        <article class="post-card">
+          <div class="post-header">
+            <div class="profile">
+              <div class="avatar">AI</div>
+              <div>
+                <h3>Andes Capital Group</h3>
+                <p>Inversión privada · Quito</p>
+              </div>
+            </div>
+            <span class="tag">Inversión</span>
+          </div>
+
+          <p class="post-text">
+            Fondo privado busca proyectos comerciales con validación real, flujo de clientes y posibilidad de expansión regional.
+          </p>
+
+          <div class="business-data">
+            <div>
+              <small>Ticket</small>
+              <strong>$10K - $80K</strong>
+            </div>
+            <div>
+              <small>Busca</small>
+              <strong>Negocios escalables</strong>
+            </div>
+          </div>
+
+          <div class="post-actions">
+            <button>
+              <span class="material-symbols-rounded">thumb_up</span>
+              Recomendar
+            </button>
+            <button class="accent-action">
+              <span class="material-symbols-rounded">forum</span>
+              Contactar
+            </button>
+          </div>
+        </article>
+
+      </main>
+    </section>
+
+    <!-- =========================
+         VISTA 2: MENSAJES Y CHAT
+    ========================== -->
+    <section class="view" id="messagesView">
+
+      <header class="top-header">
+        <div>
+          <p class="section-label">Inbox corporativo</p>
+          <h1>Mensajes</h1>
         </div>
 
-        <div class="quick-grid">
-          <button class="quick-card" data-go="chatView">
-            <span class="material-symbols-rounded">code</span>
-            <strong>Escribir código</strong>
-            <small>HTML, CSS, JS</small>
-          </button>
+        <button class="notify-btn">
+          <span class="material-symbols-rounded">edit_square</span>
+        </button>
+      </header>
 
-          <button class="quick-card" data-go="chatView">
-            <span class="material-symbols-rounded">translate</span>
-            <strong>Traducir</strong>
-            <small>Texto profesional</small>
-          </button>
+      <section class="inbox-list" id="inboxList">
 
-          <button class="quick-card" data-go="tasksView">
-            <span class="material-symbols-rounded">task_alt</span>
-            <strong>Tareas</strong>
-            <small>Organiza tu día</small>
-          </button>
+        <button class="contact-card active-contact" data-chat="laguna">
+          <div class="avatar avatar-red">LM</div>
+          <div class="contact-info">
+            <div class="contact-top">
+              <h3>Laguna Mall</h3>
+              <span>13:45</span>
+            </div>
+            <p>Podemos revisar una propuesta de alianza...</p>
+          </div>
+        </button>
 
-          <button class="quick-card" data-go="chatView">
-            <span class="material-symbols-rounded">auto_awesome</span>
-            <strong>Crear ideas</strong>
-            <small>Contenido y negocios</small>
-          </button>
+        <button class="contact-card" data-chat="capital">
+          <div class="avatar">AC</div>
+          <div class="contact-info">
+            <div class="contact-top">
+              <h3>Andes Capital</h3>
+              <span>12:10</span>
+            </div>
+            <p>Nos interesa conocer el modelo financiero...</p>
+          </div>
+        </button>
 
-          <button class="quick-card" data-go="chatView">
-            <span class="material-symbols-rounded">campaign</span>
-            <strong>Marketing</strong>
-            <small>Promos y anuncios</small>
-          </button>
+        <button class="contact-card" data-chat="media">
+          <div class="avatar">EM</div>
+          <div class="contact-info">
+            <div class="contact-top">
+              <h3>EFE-EME Media</h3>
+              <span>Ayer</span>
+            </div>
+            <p>La radio comercial puede funcionar como canje...</p>
+          </div>
+        </button>
 
-          <button class="quick-card" data-go="chatView">
-            <span class="material-symbols-rounded">smart_toy</span>
-            <strong>Automatizar</strong>
-            <small>Procesos con IA</small>
+      </section>
+
+      <section class="chat-panel">
+        <div class="chat-business-header">
+          <div class="profile">
+            <div class="avatar avatar-red">LM</div>
+            <div>
+              <h3 id="chatName">Laguna Mall</h3>
+              <p id="chatCompany">Centro comercial · Alianzas</p>
+            </div>
+          </div>
+
+          <button class="small-icon-btn">
+            <span class="material-symbols-rounded">call</span>
           </button>
         </div>
+
+        <main class="chat-area" id="chatMessages">
+          <div class="message-row received">
+            <div class="message">
+              Hola, estamos abiertos a revisar propuestas de activaciones comerciales.
+            </div>
+          </div>
+
+          <div class="message-row sent">
+            <div class="message">
+              Perfecto. Puedo enviar una propuesta de alianza con producción de contenido y difusión.
+            </div>
+          </div>
+
+          <div class="message-row received">
+            <div class="message">
+              Envíanos valores, beneficios y qué recibiría el centro comercial.
+            </div>
+          </div>
+        </main>
+
+        <footer class="chat-input">
+          <input type="text" id="messageInput" placeholder="Escribir mensaje de negocios..." />
+          <button id="sendBtn">
+            <span class="material-symbols-rounded">send</span>
+          </button>
+        </footer>
       </section>
 
     </section>
 
     <!-- =========================
-         VISTA 2: CHAT
+         VISTA 3: DIRECTORIO / PROYECTOS
     ========================== -->
-    <section class="view" id="chatView">
+    <section class="view" id="directoryView">
 
-      <header class="chat-header">
-        <button class="icon-btn back-btn" data-go="homeView" aria-label="Volver">
-          <span class="material-symbols-rounded">arrow_back_ios_new</span>
-        </button>
-
-        <div class="bot-info">
-          <div class="bot-avatar">
-            <span class="material-symbols-rounded">auto_awesome</span>
-          </div>
-
-          <div>
-            <h2>Nova AI</h2>
-            <p><span class="online-dot"></span> En línea</p>
-          </div>
+      <header class="top-header">
+        <div>
+          <p class="section-label">Directorio inteligente</p>
+          <h1>Oportunidades</h1>
         </div>
 
-        <button class="icon-btn" aria-label="Opciones">
-          <span class="material-symbols-rounded">more_horiz</span>
+        <button class="notify-btn">
+          <span class="material-symbols-rounded">tune</span>
         </button>
       </header>
 
-      <main class="chat-area" id="chatMessages">
-        <div class="message-row bot">
-          <div class="message bubble-bot">
-            Hola 👋 Soy Nova AI. Puedo ayudarte a escribir, diseñar, programar, organizar tareas o crear ideas para tu negocio.
-          </div>
-        </div>
-
-        <div class="message-row user">
-          <div class="message bubble-user">
-            Necesito crear una app moderna para celular.
-          </div>
-        </div>
-
-        <div class="message-row bot">
-          <div class="message bubble-bot">
-            Perfecto. Podemos crear una interfaz premium, oscura, rápida y lista para GitHub Pages.
-          </div>
-        </div>
-      </main>
-
-      <footer class="chat-input-zone">
-        <button class="round-input-btn" aria-label="Micrófono">
-          <span class="material-symbols-rounded">mic</span>
-        </button>
-
+      <section class="search-card">
+        <span class="material-symbols-rounded">manage_search</span>
         <input
           type="text"
-          id="messageInput"
-          placeholder="Escribe un mensaje..."
-          autocomplete="off"
+          id="directorySearch"
+          placeholder="Buscar inversionista, comprador, alianza..."
         />
+      </section>
 
-        <button class="send-btn" id="sendMessageBtn" aria-label="Enviar">
-          <span class="material-symbols-rounded">arrow_upward</span>
-        </button>
-      </footer>
-
-    </section>
-
-    <!-- =========================
-         VISTA 3: TAREAS
-    ========================== -->
-    <section class="view" id="tasksView">
-
-      <header class="tasks-header">
+      <section class="ai-search-box">
         <div>
-          <p class="eyebrow">Organización</p>
-          <h1>Mis tareas</h1>
-          <p class="subtitle">Planifica tus pendientes con IA.</p>
+          <p>IA comercial</p>
+          <h2>Describe qué buscas y encuentra conexiones estratégicas.</h2>
         </div>
 
-        <button class="icon-btn">
-          <span class="material-symbols-rounded">add</span>
+        <textarea id="aiPrompt" placeholder="Ej: Busco inversionista para una radio comercial en centro comercial..."></textarea>
+
+        <button class="main-btn" id="aiSearchBtn">
+          <span class="material-symbols-rounded">auto_awesome</span>
+          Analizar oportunidad
         </button>
-      </header>
 
-      <section class="calendar-section">
-        <div class="calendar-header">
-          <h3>Junio 2026</h3>
-          <span>Hoy</span>
-        </div>
-
-        <div class="calendar-row">
-          <button class="day-card">
-            <small>Lun</small>
-            <strong>22</strong>
-          </button>
-
-          <button class="day-card active">
-            <small>Mar</small>
-            <strong>23</strong>
-          </button>
-
-          <button class="day-card">
-            <small>Mié</small>
-            <strong>24</strong>
-          </button>
-
-          <button class="day-card">
-            <small>Jue</small>
-            <strong>25</strong>
-          </button>
-
-          <button class="day-card">
-            <small>Vie</small>
-            <strong>26</strong>
-          </button>
-
-          <button class="day-card">
-            <small>Sáb</small>
-            <strong>27</strong>
-          </button>
-
-          <button class="day-card">
-            <small>Dom</small>
-            <strong>28</strong>
-          </button>
+        <div class="ai-result" id="aiResult">
+          La IA sugerirá perfiles, alianzas o rutas de venta según tu búsqueda.
         </div>
       </section>
 
-      <section class="tasks-list">
-        <div class="section-title">
-          <h3>Pendientes de hoy</h3>
-          <button>Ordenar</button>
-        </div>
+      <section class="directory-grid" id="directoryGrid">
 
-        <article class="task-card">
-          <button class="task-check"></button>
-          <div>
-            <h4>Diseñar pantalla de inicio</h4>
-            <p>Crear UI oscura, premium y responsive.</p>
+        <article class="directory-card" data-keywords="inversionista capital negocios escalables fondo privado">
+          <div class="directory-top">
+            <div class="avatar">AC</div>
+            <span>Inversión</span>
           </div>
-          <span class="task-time">09:30</span>
+          <h3>Andes Capital Group</h3>
+          <p>Busca negocios con flujo comercial, proyección y expansión.</p>
+          <button>Conectar</button>
         </article>
 
-        <article class="task-card">
-          <button class="task-check"></button>
-          <div>
-            <h4>Revisar código de GitHub</h4>
-            <p>Subir index, style y script actualizados.</p>
+        <article class="directory-card" data-keywords="alianza centro comercial locales activaciones laguna mall">
+          <div class="directory-top">
+            <div class="avatar avatar-red">LM</div>
+            <span>Alianza</span>
           </div>
-          <span class="task-time">11:00</span>
+          <h3>Laguna Mall</h3>
+          <p>Espacios, activaciones, promociones y alianzas comerciales.</p>
+          <button>Conectar</button>
         </article>
 
-        <article class="task-card">
-          <button class="task-check completed"></button>
-          <div>
-            <h4>Crear flujo de chat</h4>
-            <p>Agregar mensajes dinámicos con JavaScript.</p>
+        <article class="directory-card" data-keywords="ventas contenido marketing fotografia video redes sociales">
+          <div class="directory-top">
+            <div class="avatar">PL</div>
+            <span>Ventas</span>
           </div>
-          <span class="task-time">13:00</span>
+          <h3>PhotoLab Studio</h3>
+          <p>Producción visual para marcas, productos y negocios locales.</p>
+          <button>Conectar</button>
         </article>
 
-        <article class="task-card">
-          <button class="task-check"></button>
-          <div>
-            <h4>Preparar demo móvil</h4>
-            <p>Probar diseño en iPhone y Android.</p>
+        <article class="directory-card" data-keywords="radio publicidad circuito cerrado medios streaming">
+          <div class="directory-top">
+            <div class="avatar">FM</div>
+            <span>Medios</span>
           </div>
-          <span class="task-time">16:30</span>
+          <h3>Radio Business FM</h3>
+          <p>Radio personalizada para centros comerciales y marcas.</p>
+          <button>Conectar</button>
         </article>
+
+        <article class="directory-card" data-keywords="restaurante franquicia comida inversion expansion">
+          <div class="directory-top">
+            <div class="avatar">RG</div>
+            <span>Proyecto</span>
+          </div>
+          <h3>RamenLiz Growth</h3>
+          <p>Modelo gastronómico pequeño con posibilidad de expansión.</p>
+          <button>Conectar</button>
+        </article>
+
+        <article class="directory-card" data-keywords="bar karaoke eventos entretenimiento ventas alianzas">
+          <div class="directory-top">
+            <div class="avatar">CL</div>
+            <span>Eventos</span>
+          </div>
+          <h3>Céline Business</h3>
+          <p>Espacio para activaciones, eventos privados y marcas aliadas.</p>
+          <button>Conectar</button>
+        </article>
+
       </section>
 
     </section>
 
     <!-- =========================
-         MENÚ INFERIOR
+         NAVEGACIÓN INFERIOR
     ========================== -->
     <nav class="bottom-nav">
-      <button class="nav-btn active" data-go="homeView">
-        <span class="material-symbols-rounded">home</span>
-        <small>Inicio</small>
+      <button class="nav-btn active" data-go="feedView">
+        <span class="material-symbols-rounded">dynamic_feed</span>
+        <small>Feed</small>
       </button>
 
-      <button class="nav-btn" data-go="chatView">
+      <button class="nav-btn" data-go="messagesView">
         <span class="material-symbols-rounded">forum</span>
         <small>Chat</small>
       </button>
 
-      <button class="nav-btn nav-center" data-go="chatView">
+      <button class="nav-btn nav-main" data-go="directoryView">
         <span class="material-symbols-rounded">auto_awesome</span>
       </button>
 
-      <button class="nav-btn" data-go="tasksView">
-        <span class="material-symbols-rounded">check_circle</span>
-        <small>Tareas</small>
+      <button class="nav-btn" data-go="directoryView">
+        <span class="material-symbols-rounded">business_center</span>
+        <small>Negocios</small>
       </button>
 
       <button class="nav-btn">
-        <span class="material-symbols-rounded">settings</span>
-        <small>Ajustes</small>
+        <span class="material-symbols-rounded">person</span>
+        <small>Perfil</small>
       </button>
     </nav>
 
