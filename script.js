@@ -1,236 +1,137 @@
-const postsContainer = document.getElementById("postsContainer");
-const searchInput = document.getElementById("searchInput");
-const sheetOverlay = document.getElementById("sheetOverlay");
+const views = document.querySelectorAll(".view");
+const navButtons = document.querySelectorAll("[data-go]");
+const bottomNavButtons = document.querySelectorAll(".bottom-nav .nav-btn");
 
-let posts = [
-  {
-    business: "Laguna Mall",
-    initials: "LM",
-    category: "Evento",
-    title: "Activación especial por temporada mundialista",
-    text: "Este fin de semana tendremos pantalla gigante, promociones de comida, música en vivo y dinámicas para toda la familia.",
-    likes: 128,
-    comments: 34,
-    icon: "🏆"
-  },
-  {
-    business: "PhotoLab Studio",
-    initials: "PL",
-    category: "Promoción",
-    title: "Sesión mundialista con tu camiseta favorita",
-    text: "Ven con la camiseta de tu equipo y vive una experiencia fotográfica profesional. Fotos individuales, pareja o grupo.",
-    likes: 92,
-    comments: 18,
-    icon: "📸"
-  },
-  {
-    business: "Céline Bar Karaoke",
-    initials: "CF",
-    category: "Evento",
-    title: "Viernes de despecho y karaoke",
-    text: "Una noche para cantar, disfrutar y compartir con amigos. Promociones especiales en cócteles y reservas VIP.",
-    likes: 210,
-    comments: 56,
-    icon: "🎤"
-  },
-  {
-    business: "Radio Business FM",
-    initials: "RB",
-    category: "Servicio",
-    title: "Radio interna para centros comerciales",
-    text: "Creamos circuitos cerrados de radio para negocios, locales y centros comerciales con programación personalizada.",
-    likes: 75,
-    comments: 12,
-    icon: "🎧"
-  }
-];
+const chatMessages = document.getElementById("chatMessages");
+const messageInput = document.getElementById("messageInput");
+const sendMessageBtn = document.getElementById("sendMessageBtn");
 
-function getCategoryColor(category) {
-  switch (category) {
-    case "Promoción":
-      return {
-        badgeBg: "rgba(16, 185, 129, 0.10)",
-        badgeColor: "#059669",
-        cover: "linear-gradient(135deg, #dcfce7 0%, #064e3b 100%)"
-      };
-    case "Evento":
-      return {
-        badgeBg: "rgba(59, 99, 240, 0.10)",
-        badgeColor: "#3b63f0",
-        cover: "linear-gradient(135deg, #dbeafe 0%, #0f172a 100%)"
-      };
-    case "Producto":
-      return {
-        badgeBg: "rgba(245, 158, 11, 0.12)",
-        badgeColor: "#d97706",
-        cover: "linear-gradient(135deg, #fef3c7 0%, #78350f 100%)"
-      };
-    case "Servicio":
-      return {
-        badgeBg: "rgba(168, 85, 247, 0.10)",
-        badgeColor: "#7c3aed",
-        cover: "linear-gradient(135deg, #ede9fe 0%, #312e81 100%)"
-      };
-    default:
-      return {
-        badgeBg: "rgba(107, 114, 128, 0.10)",
-        badgeColor: "#4b5563",
-        cover: "linear-gradient(135deg, #e5e7eb 0%, #111827 100%)"
-      };
-  }
-}
+const taskChecks = document.querySelectorAll(".task-check");
+const dayCards = document.querySelectorAll(".day-card");
 
-function renderPosts(list = posts) {
-  postsContainer.innerHTML = "";
-
-  if (!list.length) {
-    postsContainer.innerHTML = `
-      <div class="glass-card empty-card">
-        No encontramos publicaciones con esa búsqueda.
-      </div>
-    `;
-    return;
-  }
-
-  list.forEach((post) => {
-    const colors = getCategoryColor(post.category);
-
-    const card = document.createElement("article");
-    card.className = "post-card";
-
-    card.innerHTML = `
-      <div class="post-head">
-        <div class="post-head-left">
-          <div class="profile-avatar">${post.initials}</div>
-          <div>
-            <div class="post-name">${post.business}</div>
-            <div class="post-meta">Publicado hace 1 h · Negocio verificado</div>
-          </div>
-        </div>
-        <div class="post-badge" style="background:${colors.badgeBg}; color:${colors.badgeColor};">
-          ${post.category}
-        </div>
-      </div>
-
-      <div class="post-content">
-        <div class="post-title">${post.title}</div>
-        <div class="post-text">${post.text}</div>
-
-        <div class="post-cover" style="background:${colors.cover};">
-          <span>${post.icon}</span>
-        </div>
-      </div>
-
-      <div class="post-actions">
-        <button class="post-action-btn" onclick="likePost('${post.id || post.title}')">
-          ❤️ Me gusta ${post.likes}
-        </button>
-        <button class="post-action-btn">
-          💬 Comentar ${post.comments}
-        </button>
-        <button class="post-action-btn">
-          📲 Compartir
-        </button>
-        <button class="post-action-btn">
-          📌 Guardar
-        </button>
-      </div>
-    `;
-
-    postsContainer.appendChild(card);
+function showView(viewId) {
+  views.forEach((view) => {
+    view.classList.remove("active");
   });
-}
 
-function likePost(identifier) {
-  const post = posts.find((p) => (p.id || p.title) === identifier);
-  if (!post) return;
-  post.likes += 1;
-  renderPosts(filterPosts(searchInput.value.trim()));
-}
+  const selectedView = document.getElementById(viewId);
 
-function openComposer() {
-  sheetOverlay.classList.add("active");
-  document.body.style.overflow = "hidden";
-}
-
-function closeComposer(event) {
-  if (event && event.target !== sheetOverlay) return;
-  sheetOverlay.classList.remove("active");
-  document.body.style.overflow = "";
-}
-
-function createPost() {
-  const businessName = document.getElementById("businessName").value.trim();
-  const postTitle = document.getElementById("postTitle").value.trim();
-  const postText = document.getElementById("postText").value.trim();
-  const postCategory = document.getElementById("postCategory").value;
-
-  if (!businessName || !postTitle || !postText) {
-    alert("Completa todos los campos antes de publicar.");
-    return;
+  if (selectedView) {
+    selectedView.classList.add("active");
   }
 
-  const initials = businessName
-    .split(" ")
-    .map(word => word.charAt(0))
-    .join("")
-    .substring(0, 2)
-    .toUpperCase();
+  bottomNavButtons.forEach((btn) => {
+    btn.classList.remove("active");
 
-  const icons = {
-    "Promoción": "🔥",
-    "Evento": "🎉",
-    "Producto": "🛍️",
-    "Servicio": "💼",
-    "Comunicado": "📢"
-  };
+    if (btn.dataset.go === viewId) {
+      btn.classList.add("active");
+    }
+  });
 
-  const newPost = {
-    id: Date.now().toString(),
-    business: businessName,
-    initials,
-    category: postCategory,
-    title: postTitle,
-    text: postText,
-    likes: 0,
-    comments: 0,
-    icon: icons[postCategory] || "📢"
-  };
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 
-  posts.unshift(newPost);
-  clearComposer();
-  closeComposer();
-  renderPosts(filterPosts(searchInput.value.trim()));
+  if (viewId === "chatView") {
+    setTimeout(scrollChatToBottom, 100);
+  }
 }
 
-function clearComposer() {
-  document.getElementById("businessName").value = "";
-  document.getElementById("postTitle").value = "";
-  document.getElementById("postText").value = "";
-  document.getElementById("postCategory").value = "Promoción";
-}
+navButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const targetView = button.dataset.go;
 
-function filterPosts(term) {
-  const query = term.toLowerCase().trim();
-
-  if (!query) return posts;
-
-  return posts.filter(post =>
-    post.business.toLowerCase().includes(query) ||
-    post.title.toLowerCase().includes(query) ||
-    post.text.toLowerCase().includes(query) ||
-    post.category.toLowerCase().includes(query)
-  );
-}
-
-searchInput.addEventListener("input", (e) => {
-  renderPosts(filterPosts(e.target.value));
+    if (targetView) {
+      showView(targetView);
+    }
+  });
 });
 
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") {
-    closeComposer();
+function createMessageElement(text, type = "user") {
+  const row = document.createElement("div");
+  row.className = `message-row ${type}`;
+
+  const bubble = document.createElement("div");
+  bubble.className = type === "user"
+    ? "message bubble-user"
+    : "message bubble-bot";
+
+  bubble.textContent = text;
+
+  row.appendChild(bubble);
+  return row;
+}
+
+function sendMessage() {
+  const text = messageInput.value.trim();
+
+  if (!text) return;
+
+  const userMessage = createMessageElement(text, "user");
+  chatMessages.appendChild(userMessage);
+
+  messageInput.value = "";
+  scrollChatToBottom();
+
+  setTimeout(() => {
+    const botReply = createMessageElement(getBotReply(text), "bot");
+    chatMessages.appendChild(botReply);
+    scrollChatToBottom();
+  }, 700);
+}
+
+function getBotReply(text) {
+  const message = text.toLowerCase();
+
+  if (message.includes("codigo") || message.includes("código") || message.includes("html")) {
+    return "Claro. Puedo ayudarte a crear código completo en HTML, CSS y JavaScript con estructura limpia y diseño responsive.";
+  }
+
+  if (message.includes("diseño") || message.includes("app") || message.includes("interfaz")) {
+    return "Perfecto. Podemos trabajar una interfaz premium en modo oscuro, con tarjetas redondeadas, navegación inferior y estilo móvil moderno.";
+  }
+
+  if (message.includes("tarea") || message.includes("organizar")) {
+    return "Puedo ayudarte a organizar tus tareas por prioridad, fecha y tipo de proyecto.";
+  }
+
+  if (message.includes("negocio") || message.includes("marketing")) {
+    return "Podemos crear ideas de contenido, promociones, campañas y estrategias para negocios locales.";
+  }
+
+  return "Entendido. Puedo ayudarte a desarrollarlo paso a paso con una propuesta clara, moderna y funcional.";
+}
+
+function scrollChatToBottom() {
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+sendMessageBtn.addEventListener("click", sendMessage);
+
+messageInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    sendMessage();
   }
 });
 
-renderPosts();
+taskChecks.forEach((check) => {
+  check.addEventListener("click", () => {
+    check.classList.toggle("completed");
+
+    const taskCard = check.closest(".task-card");
+
+    if (taskCard) {
+      taskCard.classList.toggle("task-done");
+    }
+  });
+});
+
+dayCards.forEach((day) => {
+  day.addEventListener("click", () => {
+    dayCards.forEach((item) => item.classList.remove("active"));
+    day.classList.add("active");
+  });
+});
+
+showView("homeView");
