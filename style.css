@@ -11,6 +11,8 @@
   --red: #ff2d2d;
   --red-dark: #b80016;
   --red-soft: rgba(255, 45, 45, 0.13);
+  --green: #28d17c;
+  --yellow: #ffc857;
   --shadow: 0 22px 55px rgba(0, 0, 0, 0.55);
   --shadow-red: 0 18px 40px rgba(255, 45, 45, 0.23);
   --safe-top: env(safe-area-inset-top, 0px);
@@ -35,7 +37,8 @@ body {
 
 button,
 input,
-textarea {
+textarea,
+select {
   font-family: inherit;
 }
 
@@ -45,7 +48,8 @@ button {
 }
 
 input,
-textarea {
+textarea,
+select {
   border: 0;
   outline: 0;
 }
@@ -138,6 +142,7 @@ h1 {
 }
 
 .icon-button {
+  position: relative;
   width: 50px;
   height: 50px;
   border-radius: 18px;
@@ -146,6 +151,22 @@ h1 {
   display: grid;
   place-items: center;
   box-shadow: var(--shadow);
+}
+
+.icon-button i {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: none;
+  width: 10px;
+  height: 10px;
+  background: var(--red);
+  border-radius: 999px;
+  box-shadow: 0 0 14px rgba(255, 45, 45, 0.8);
+}
+
+.icon-button i.active {
+  display: block;
 }
 
 .hero-card,
@@ -407,7 +428,7 @@ h1 {
 }
 
 .directory-card {
-  min-height: 220px;
+  min-height: 240px;
   border-radius: 26px;
   background: var(--card);
   box-shadow: var(--shadow);
@@ -438,7 +459,7 @@ h1 {
 }
 
 .directory-card button {
-  min-height: 40px;
+  min-height: 42px;
   border-radius: 15px;
   background: var(--red-soft);
   color: var(--red);
@@ -588,7 +609,29 @@ h1 {
 
 .profile-hero > p {
   color: var(--muted);
-  margin-bottom: 18px;
+  margin-bottom: 14px;
+}
+
+.profile-status-card {
+  width: max-content;
+  max-width: 100%;
+  margin: 0 auto 16px;
+  padding: 9px 13px;
+  border-radius: 999px;
+  background: var(--red-soft);
+  color: var(--red);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.profile-status-card.active {
+  background: rgba(40, 209, 124, 0.12);
+  color: var(--green);
+}
+
+.profile-status-card.pending {
+  background: rgba(255, 200, 87, 0.12);
+  color: var(--yellow);
 }
 
 .profile-info-card {
@@ -618,8 +661,153 @@ h1 {
   font-size: 0.9rem;
 }
 
+.notification-list,
+.admin-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.notification-card,
+.admin-item {
+  border-radius: 24px;
+  background: var(--card);
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+
+.notification-card.unread {
+  border: 1px solid rgba(255, 45, 45, 0.35);
+}
+
+.notification-card h3,
+.admin-item h3 {
+  font-size: 0.98rem;
+  margin-bottom: 6px;
+}
+
+.notification-card p,
+.admin-item p {
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+
+.notification-actions,
+.admin-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.notification-actions button,
+.admin-actions button {
+  flex: 1;
+  min-width: 110px;
+  min-height: 38px;
+  border-radius: 14px;
+  background: var(--red-soft);
+  color: var(--red);
+  font-weight: 900;
+  font-size: 0.78rem;
+}
+
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 11px;
+  margin-bottom: 16px;
+}
+
+.admin-stats div {
+  border-radius: 22px;
+  background: var(--card);
+  padding: 14px;
+  box-shadow: var(--shadow);
+}
+
+.admin-stats small {
+  display: block;
+  color: var(--muted);
+  font-size: 0.72rem;
+  margin-bottom: 8px;
+}
+
+.admin-stats strong {
+  font-size: 1.8rem;
+  color: var(--red);
+}
+
+.admin-tabs,
+.auth-tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  margin-bottom: 16px;
+}
+
+.admin-tab,
+.auth-tab {
+  white-space: nowrap;
+  padding: 11px 13px;
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--muted);
+  font-weight: 900;
+  font-size: 0.78rem;
+}
+
+.admin-tab.active,
+.auth-tab.active {
+  background: var(--red-soft);
+  color: var(--red);
+}
+
+.admin-panel {
+  display: none;
+}
+
+.admin-panel.active {
+  display: block;
+}
+
+.admin-panel h2 {
+  font-size: 1.2rem;
+  margin-bottom: 14px;
+}
+
+.admin-config-form {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.admin-config-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.admin-config-form span {
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.admin-config-form input {
+  min-height: 52px;
+  border-radius: 18px;
+  background: var(--card);
+  color: var(--white);
+  padding: 0 15px;
+}
+
+.auth-modal,
 .profile-modal,
-.voice-modal {
+.voice-modal,
+.connection-modal {
   position: fixed;
   inset: 0;
   z-index: 500;
@@ -633,13 +821,17 @@ h1 {
   padding: 16px;
 }
 
+.auth-modal.active,
 .profile-modal.active,
-.voice-modal.active {
+.voice-modal.active,
+.connection-modal.active {
   display: flex;
 }
 
+.auth-card,
 .profile-modal-card,
-.voice-card {
+.voice-card,
+.connection-card {
   position: relative;
   width: min(100%, 496px);
   max-height: 92vh;
@@ -693,26 +885,31 @@ h1 {
   line-height: 1.45;
 }
 
-.profile-form {
-  display: flex;
+.auth-form {
+  display: none;
   flex-direction: column;
   gap: 13px;
 }
 
-.profile-form label {
+.auth-form.active {
+  display: flex;
+}
+
+.auth-form label {
   display: flex;
   flex-direction: column;
   gap: 7px;
 }
 
-.profile-form label span {
+.auth-form label span {
   color: var(--muted);
   font-size: 0.78rem;
   font-weight: 800;
 }
 
-.profile-form input,
-.profile-form textarea {
+.auth-form input,
+.auth-form textarea,
+.auth-form select {
   width: 100%;
   min-height: 52px;
   border-radius: 18px;
@@ -722,11 +919,15 @@ h1 {
   font-size: 0.92rem;
 }
 
-.profile-form textarea {
+.auth-form textarea {
   min-height: 94px;
   resize: none;
   padding: 15px;
   line-height: 1.45;
+}
+
+.auth-form select {
+  appearance: none;
 }
 
 .photo-upload {
